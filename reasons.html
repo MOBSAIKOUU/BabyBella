@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>100 Reasons ♡</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <section class="card reasons-card fade-up">
+      <div class="eyebrow">few little reasons</div>
+      <h1>Why I love my baby</h1>
+
+      <div class="reason-preview">
+        <div class="number">♡</div>
+        <p>You made it this farrr! HEHEHEHEHE kala mo talaga malayo e.</p>
+      </div>
+
+      <p class="note">
+        I couldn't fit them all into one tiny page, baby...
+        so I put them in a little text file for you.
+        Open it whenever you want a reminder of how loved you are.
+
+      </p>
+
+      <a class="btn reasons-button" href="100-reasons.txt" target="_blank">
+        ITO NAAA! 🥰
+      </a>
+    </section>
+
+    <nav class="footer-nav fade-up delay-1">
+      <a class="btn secondary" href="memories.html">← back</a>
+      <a class="btn secondary" href="index.html">ULIT BUTTON!</a>
+    </nav>
+  </main>
+  <script>
+    const reasonsButton = document.querySelector('.reasons-button');
+    let dodgeCount = 0;
+
+    reasonsButton.addEventListener('click', (event) => {
+      if (dodgeCount < 3) {
+        event.preventDefault();
+        reasonsButton.style.transform = `translateX(${dodgeCount % 2 === 0 ? '-90px' : '90px'})`;
+        dodgeCount += 1;
+      }
+    });
+  </script>
+</body>
+</html>
