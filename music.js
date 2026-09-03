@@ -1,7 +1,6 @@
 const music = document.getElementById('background-music');
 const musicToggle = document.getElementById('music-toggle');
 const musicEnabled = localStorage.getItem('music-enabled') === 'true';
-const savedTime = Number(localStorage.getItem('music-time')) || 0;
 
 const loadPage = async (url, addToHistory = true) => {
   try {
@@ -41,7 +40,7 @@ document.addEventListener('click', (event) => {
 
 window.addEventListener('popstate', () => loadPage(window.location.href, false));
 
-music.currentTime = savedTime;
+music.currentTime = 0;
 
 const updateMusicButton = () => {
   const isPlaying = !music.paused;
@@ -64,10 +63,6 @@ musicToggle.addEventListener('click', async () => {
     localStorage.setItem('music-enabled', 'false');
   }
   updateMusicButton();
-});
-
-window.addEventListener('pagehide', () => {
-  localStorage.setItem('music-time', String(music.currentTime));
 });
 
 updateMusicButton();
