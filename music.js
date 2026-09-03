@@ -3,6 +3,44 @@ const musicToggle = document.getElementById('music-toggle');
 const musicEnabled = localStorage.getItem('music-enabled') === 'true';
 const savedTime = Number(localStorage.getItem('music-time')) || 0;
 
+const loadPage = async (url, addToHistory = true) => {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`Page failed to load: ${response.status}`);
+
+    const pageDocument = new DOMParser().parseFromString(await response.text(), 'text/html');
+    const nextMain = pageDocument.querySelector('main');
+    if (!nextMain) throw new Error('Page has no main content');
+
+    document.querySelector('main').replaceWith(nextMain);
+    document.title = pageDocument.title;
+
+    pageDocument.querySelectorAll('script:not([src])').forEach((script) => {
+      const replacement = document.createElement('script');
+      replacement.textContent = script.textContent;
+      document.body.appendChild(replacement);
+    });
+
+    if (addToHistory) history.pushState({}, '', url);
+    window.scrollTo(0, 0);
+  } catch {
+    window.location.href = url;
+  }
+};
+
+document.addEventListener('click', (event) => {
+  const link = event.target.closest('a[href]');
+  if (!link || link.target || !link.href.endsWith('.html')) return;
+
+  const url = new URL(link.href);
+  if (url.origin !== window.location.origin) return;
+
+  event.preventDefault();
+  loadPage(url.href);
+});
+
+window.addEventListener('popstate', () => loadPage(window.location.href, false));
+
 music.currentTime = savedTime;
 
 const updateMusicButton = () => {
