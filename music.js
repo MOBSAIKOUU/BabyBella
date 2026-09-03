@@ -4,7 +4,7 @@ const musicEnabled = localStorage.getItem('music-enabled') === 'true';
 
 const loadPage = async (url, addToHistory = true) => {
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, { cache: 'no-store' });
     if (!response.ok) throw new Error(`Page failed to load: ${response.status}`);
 
     const pageDocument = new DOMParser().parseFromString(await response.text(), 'text/html');
@@ -29,7 +29,7 @@ const loadPage = async (url, addToHistory = true) => {
 
 document.addEventListener('click', (event) => {
   const link = event.target.closest('a[href]');
-  if (!link || link.target || !link.href.endsWith('.html')) return;
+  if (!link || link.target || !link.pathname.endsWith('.html')) return;
 
   const url = new URL(link.href);
   if (url.origin !== window.location.origin) return;
