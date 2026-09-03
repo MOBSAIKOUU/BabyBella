@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <button class="music-toggle" id="music-toggle" type="button" aria-label="Play background music">Play music</button>
+
   <main class="page">
     <div class="memory-layout">
       <section class="card gallery fade-up">
@@ -55,5 +57,9 @@
       <a class="btn" href="reasons.html">next →</a>
     </nav>
   </main>
+  <audio id="background-music" loop>
+    <source src="music/background-music.mp3" type="audio/mpeg">
+  </audio>
+  <script src="music.js"></script>
 </body>
 </html>

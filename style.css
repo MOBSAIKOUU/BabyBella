@@ -34,6 +34,23 @@ body::before, body::after{
   font-family:Georgia,serif;
   font-size:160px;
 }
+
+.music-toggle{
+  position:fixed;
+  top:20px;
+  right:20px;
+  z-index:1000;
+  padding:10px 14px;
+  border:1px solid #f0c1d0;
+  border-radius:8px;
+  background:var(--white);
+  color:var(--rose);
+  font:600 14px 'DM Sans',sans-serif;
+  cursor:pointer;
+  box-shadow:0 3px 12px rgba(190,105,135,.18);
+}
+
+.music-toggle:hover{background:var(--pink-soft)}
 body::before{left:-30px;top:10%}
 body::after{right:-40px;bottom:5%;transform:rotate(15deg)}
 
