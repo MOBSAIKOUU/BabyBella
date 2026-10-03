@@ -1,4 +1,4 @@
-const music = document.getElementById('background-music');
+const music = document.getElementById('naparabang');
 const musicToggle = document.getElementById('music-toggle');
 const musicEnabled = localStorage.getItem('music-enabled') === 'true';
 
