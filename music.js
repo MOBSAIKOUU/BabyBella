@@ -1,4 +1,4 @@
-const music = document.getElementById('naparabang');
+const music = document.getElementById('background-music') || document.querySelector('audio');
 const musicToggle = document.getElementById('music-toggle');
 const musicEnabled = localStorage.getItem('music-enabled') === 'true';
 
@@ -40,29 +40,36 @@ document.addEventListener('click', (event) => {
 
 window.addEventListener('popstate', () => loadPage(window.location.href, false));
 
-music.currentTime = 0;
-
 const updateMusicButton = () => {
+  if (!music || !musicToggle) return;
+
   const isPlaying = !music.paused;
   musicToggle.textContent = isPlaying ? 'Turn music off' : 'Play music';
   musicToggle.setAttribute('aria-label', isPlaying ? 'Turn music off' : 'Play background music');
 };
 
-if (musicEnabled) {
-  music.play().catch(() => {
-    updateMusicButton();
-  });
-}
+if (music) {
+  music.currentTime = 0;
+  music.volume = 0.45;
 
-musicToggle.addEventListener('click', async () => {
-  if (music.paused) {
-    await music.play();
-    localStorage.setItem('music-enabled', 'true');
-  } else {
-    music.pause();
-    localStorage.setItem('music-enabled', 'false');
+  if (musicEnabled) {
+    music.play().catch(() => {
+      updateMusicButton();
+    });
   }
-  updateMusicButton();
-});
+
+  if (musicToggle) {
+    musicToggle.addEventListener('click', async () => {
+      if (music.paused) {
+        await music.play();
+        localStorage.setItem('music-enabled', 'true');
+      } else {
+        music.pause();
+        localStorage.setItem('music-enabled', 'false');
+      }
+      updateMusicButton();
+    });
+  }
+}
 
 updateMusicButton();
