@@ -1,6 +1,8 @@
 const music = document.getElementById('background-music') || document.querySelector('audio');
 const musicToggle = document.getElementById('music-toggle');
-const musicEnabled = localStorage.getItem('music-enabled') === 'true';
+const musicEnabled = localStorage.getItem('music-enabled') !== 'false';
+let autoplayBlocked = false;
+let playbackFailed = false;
 
 const loadPage = async (url, addToHistory = true) => {
   try {
@@ -44,7 +46,13 @@ const updateMusicButton = () => {
   if (!music || !musicToggle) return;
 
   const isPlaying = !music.paused;
-  musicToggle.textContent = isPlaying ? 'Turn music off' : 'Play music';
+  musicToggle.textContent = isPlaying
+    ? 'Turn music off'
+    : playbackFailed
+      ? 'Music unavailable'
+      : autoplayBlocked
+        ? 'Tap to play music'
+        : 'Play music';
   musicToggle.setAttribute('aria-label', isPlaying ? 'Turn music off' : 'Play background music');
 };
 
@@ -53,7 +61,18 @@ if (music) {
   music.volume = 0.45;
 
   if (musicEnabled) {
-    music.play().catch(() => {
+    music.play().then(() => {
+      autoplayBlocked = false;
+      playbackFailed = false;
+      localStorage.setItem('music-enabled', 'true');
+      updateMusicButton();
+    }).catch((error) => {
+      if (error.name === 'NotAllowedError') {
+        autoplayBlocked = true;
+      } else {
+        playbackFailed = true;
+        console.error('Background music could not be played:', error);
+      }
       updateMusicButton();
     });
   }
@@ -61,10 +80,22 @@ if (music) {
   if (musicToggle) {
     musicToggle.addEventListener('click', async () => {
       if (music.paused) {
-        await music.play();
-        localStorage.setItem('music-enabled', 'true');
+        try {
+          await music.play();
+          autoplayBlocked = false;
+          playbackFailed = false;
+          localStorage.setItem('music-enabled', 'true');
+        } catch (error) {
+          if (error.name === 'NotAllowedError') {
+            autoplayBlocked = true;
+          } else {
+            playbackFailed = true;
+            console.error('Background music could not be played:', error);
+          }
+        }
       } else {
         music.pause();
+        autoplayBlocked = false;
         localStorage.setItem('music-enabled', 'false');
       }
       updateMusicButton();
