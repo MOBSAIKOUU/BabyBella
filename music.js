@@ -29,7 +29,7 @@ const loadPage = async (url, addToHistory = true) => {
 
 document.addEventListener('click', (event) => {
   const link = event.target.closest('a[href]');
-  if (!link || link.target || !link.pathname.endsWith('.html')) return;
+  if (!link || link.target || link.dataset.noSpa !== undefined || !link.pathname.endsWith('.html')) return;
 
   const url = new URL(link.href);
   if (url.origin !== window.location.origin) return;
