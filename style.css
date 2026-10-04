@@ -35,11 +35,15 @@ body::before, body::after{
   font-size:160px;
 }
 
-.music-toggle{
+.music-menu{
   position:fixed;
   top:20px;
-  right:20px;
-  z-index:1000;
+  left:20px;
+  z-index:1001;
+}
+
+.music-menu-button,
+.music-toggle{
   padding:10px 14px;
   border:1px solid #f0c1d0;
   border-radius:8px;
@@ -50,7 +54,63 @@ body::before, body::after{
   box-shadow:0 3px 12px rgba(190,105,135,.18);
 }
 
+.music-menu-button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:110px;
+}
+
+.music-menu-button:hover,
 .music-toggle:hover{background:var(--pink-soft)}
+
+.music-menu-panel{
+  position:absolute;
+  top:52px;
+  left:0;
+  width:min(240px,72vw);
+  padding:14px 14px 12px;
+  border:1px solid #f0c1d0;
+  border-radius:16px;
+  background:rgba(255,255,255,.96);
+  box-shadow:0 16px 36px rgba(190,105,135,.15);
+}
+
+.music-menu-panel.hidden{display:none}
+
+.music-menu-header{
+  margin-bottom:8px;
+  font-size:12px;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  font-weight:700;
+  color:var(--pink-dark);
+}
+
+.music-menu-label{
+  display:block;
+  margin-bottom:8px;
+  font-size:13px;
+  color:#7a5867;
+}
+
+#music-track-select{
+  width:100%;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid #f0c1d0;
+  background:#fff;
+  color:var(--text);
+  font:500 14px 'DM Sans',sans-serif;
+}
+
+.music-toggle{
+  position:fixed;
+  top:20px;
+  right:20px;
+  z-index:1000;
+}
+
 body::before{left:-30px;top:10%}
 body::after{right:-40px;bottom:5%;transform:rotate(15deg)}
 
